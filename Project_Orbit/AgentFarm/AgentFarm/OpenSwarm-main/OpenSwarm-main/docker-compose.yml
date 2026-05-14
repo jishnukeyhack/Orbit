@@ -1,0 +1,90 @@
+services:
+  openswarm:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    image: openswarm:latest
+    container_name: openswarm
+    restart: unless-stopped
+
+    # Environment variables
+    environment:
+      - NODE_ENV=production
+      - ONNX_WEB=1
+      - USE_ONNXRUNTIME_WEB=1
+      - TZ=Asia/Seoul
+      - HOME=/home/claude
+      - PROJECT_PATH=/app
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+
+    # Load environment from file
+    env_file:
+      - .env
+
+    # Port mapping
+    ports:
+      - "3002:3847"
+
+    # Volume mounts
+    volumes:
+      # Configuration files (read-only)
+      - ./config:/app/config:ro
+      # Logs directory (read-write)
+      - ./logs:/app/logs:rw
+      # Data persistence
+      - openswarm-data:/app/data:rw
+      # Config file (if exists)
+      - ./config.yaml:/app/config.yaml:ro
+      # Claude CLI auth and git config (uncomment and configure as needed)
+      # - ~/.claude:/home/claude/.claude:ro
+      # - ~/.gitconfig:/home/claude/.gitconfig:ro
+
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+
+    # Health check
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3847/api/stats"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+    # Logging configuration
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+    # Network
+    networks:
+      - openswarm-network
+
+    # Security options
+    security_opt:
+      - no-new-privileges:true
+
+    # Read-only root filesystem (except for volumes)
+    read_only: false  # Set to true if app doesn't need to write to filesystem
+
+# Named volumes
+volumes:
+  openswarm-data:
+    driver: local
+
+# Networks
+networks:
+  openswarm-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.25.0.0/24

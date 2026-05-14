@@ -1,0 +1,75 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Git worktrees
+worktree/
+
+# Config with secrets
+config.json
+config.yaml
+config.yml
+config/config.yaml
+config-docker.yaml
+
+# Personal / internal docs
+*.personal.md
+
+# Claude Code local settings
+.claude/
+
+# Logs
+*.log
+swarm.log
+
+# Environment
+.env
+.env.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# State files
+state.json
+
+# Test coverage
+coverage/
+.coverage
+
+# Test output
+test-output.txt
+test-report.json
+coverage-analysis.json
+
+# Performance results
+performance-results/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Temporary analysis files
+*.analysis.txt
+*.report.md
+
+# ML/ONNX cache & models
+cache/
+models/
+
+# OpenSwarm local state
+.openswarm/
+
+# Trash
+trash/
+
+# Subprojects
+openclaw/

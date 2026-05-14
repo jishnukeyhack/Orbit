@@ -1,0 +1,135 @@
+# OpenSwarm Configuration
+# Environment variables can be used in ${VAR_NAME} or ${VAR_NAME:-default} format
+# Copy this file to config.yaml to use
+
+# Default CLI adapter for worker/reviewer stages
+# Options: claude, codex, gpt, local
+# For GPT: run `openswarm auth login --provider gpt` first
+# For local: start Ollama, LMStudio, or llama.cpp server
+adapter: claude
+
+discord:
+  token: ${DISCORD_TOKEN}
+  channelId: ${DISCORD_CHANNEL_ID}
+  webhookUrl: ${DISCORD_WEBHOOK_URL:-}  # Optional
+
+linear:
+  apiKey: ${LINEAR_API_KEY}
+  teamId: ${LINEAR_TEAM_ID}
+
+github:
+  repos:
+    - owner/repo  # owner/repo format
+  checkInterval: 300000  # 5 minutes (ms)
+
+# Agent list
+agents:
+  - name: main
+    projectPath: ~/dev/your-project
+    heartbeatInterval: 1800000  # 30 minutes (ms)
+    linearLabel: main  # Label for Linear issue filtering
+    enabled: true
+    paused: false
+
+# Default heartbeat interval (ms)
+defaultHeartbeatInterval: 1800000  # 30 minutes
+
+# Autonomous execution mode settings
+autonomous:
+  enabled: true
+  pairMode: true
+  schedule: "*/15 * * * *"  # Every 15 minutes
+  maxAttempts: 3
+  maxConcurrentTasks: 4  # Number of concurrent tasks
+
+  allowedProjects:
+    - ~/dev/your-project
+
+  # Task decomposition settings (Planner Agent)
+  decomposition:
+    enabled: true                    # Enable decomposition
+    thresholdMinutes: 30             # Decompose if estimated time exceeds this
+    plannerModel: claude-sonnet-4-20250514  # Planner model
+
+  # Per-role settings
+  # Hybrid config: Claude for complex coding, local model for review/docs ($0)
+  defaultRoles:
+    worker:
+      enabled: true
+      adapter: claude
+      model: claude-sonnet-4-20250514         # Sonnet for coding tasks
+      escalateModel: claude-opus-4-6          # On failure: Opus
+      escalateAfterIteration: 3
+      timeoutMs: 1800000  # 30 minutes
+    reviewer:
+      enabled: true
+      adapter: local                          # Local model — free, 7s response
+      model: gemma-4-e4b-it                   # Gemma 4 e4b via LMStudio
+      escalateModel: claude-sonnet-4-20250514 # Spot check: Sonnet reviews after N revisions
+      escalateAfterIteration: 3               # Escalate from 3rd iteration
+      timeoutMs: 60000    # 1 minute (local models are slower)
+    tester:
+      enabled: false
+    documenter:
+      enabled: false
+      adapter: local
+      model: gemma-4-e4b-it
+      timeoutMs: 120000   # 2 minutes
+    auditor:
+      enabled: false
+      adapter: local
+      model: gemma-4-e4b-it
+      timeoutMs: 300000   # 5 minutes
+    skill-documenter:
+      enabled: false
+      adapter: local
+      model: gemma-4-e4b-it
+      timeoutMs: 120000   # 2 minutes
+
+  # Pipeline guards
+  guards:
+    qualityGate: true
+    fakeDataGuard: true
+    conventionalCommits: true
+    branchValidation: true
+    uncertaintyDetection: true
+    registryCheck: true
+    bsDetector: true
+
+  # Job profiles for lightweight vs heavy work
+  jobProfiles:
+    - name: quick-analysis
+      maxMinutes: 15
+      roles:
+        worker: claude-haiku-4-5-20251001     # Haiku for simple tasks
+    - name: deep-engineering
+      minMinutes: 16
+      roles:
+        worker: claude-sonnet-4-20250514      # Sonnet for complex work
+        reviewer: claude-sonnet-4-20250514    # Sonnet reviews Sonnet
+
+# Long-running task monitoring (RunPod training, batch processing, etc.)
+#
+# checkCommand is a literal argv array — no shell is invoked, so pipes,
+# redirects, and substitutions do not work. Put shell logic in a script
+# you control and call that script instead (e.g. ["/opt/probe.sh", "arg"]).
+#
+# monitors:
+#   - id: runpod-training
+#     name: "LSTM model training"
+#     issueId: INT-456
+#     checkCommand: ["ssh", "runpod", "tail -1 /workspace/train.log"]
+#     completionCheck:
+#       type: output-regex
+#       successPattern: "Training finished"
+#       failurePattern: "Error|FAILED"
+#     checkInterval: 2         # Every 2 heartbeats
+#     maxDurationHours: 24
+#     notify: true
+
+# PR Auto-Improvement
+prProcessor:
+  enabled: true
+  schedule: "*/15 * * * *"    # Check every 15 minutes
+  cooldownHours: 6            # Wait 6 hours after processing
+  maxIterations: 3            # Max 3 Worker-Reviewer iterations

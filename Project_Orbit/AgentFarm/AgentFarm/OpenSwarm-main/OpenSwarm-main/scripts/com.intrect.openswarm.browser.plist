@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- Service identifier -->
+    <key>Label</key>
+    <string>com.intrect.openswarm.browser</string>
+
+    <!-- Command to open browser -->
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>__PROJECT_DIR__/scripts/open-browser-once.sh</string>
+    </array>
+
+    <!-- Run on load - once only -->
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>KeepAlive</key>
+    <false/>
+
+    <key>StandardOutPath</key>
+    <string>__HOME_DIR__/.openswarm/logs/browser.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>__HOME_DIR__/.openswarm/logs/browser-error.log</string>
+</dict>
+</plist>

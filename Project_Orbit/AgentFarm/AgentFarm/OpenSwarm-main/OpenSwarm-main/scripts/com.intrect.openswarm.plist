@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- Service identifier -->
+    <key>Label</key>
+    <string>com.intrect.openswarm</string>
+
+    <!-- Program to run (node path replaced by install script) -->
+    <key>ProgramArguments</key>
+    <array>
+        <string>__NODE_PATH__</string>
+        <string>--env-file=.env</string>
+        <string>dist/index.js</string>
+    </array>
+
+    <!-- Working directory (replaced by install script) -->
+    <key>WorkingDirectory</key>
+    <string>__PROJECT_DIR__</string>
+
+    <!-- Environment variables -->
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin</string>
+
+        <key>HOME</key>
+        <string>__HOME_DIR__</string>
+    </dict>
+
+    <!-- Start on system boot -->
+    <key>RunAtLoad</key>
+    <true/>
+
+    <!-- Keep service running (auto-restart on crash) -->
+    <key>KeepAlive</key>
+    <dict>
+        <key>SuccessfulExit</key>
+        <false/>
+        <key>Crashed</key>
+        <true/>
+    </dict>
+
+    <!-- Log output -->
+    <key>StandardOutPath</key>
+    <string>__HOME_DIR__/.openswarm/logs/stdout.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>__HOME_DIR__/.openswarm/logs/stderr.log</string>
+
+    <key>ProcessType</key>
+    <string>Interactive</string>
+
+    <key>Nice</key>
+    <integer>0</integer>
+
+    <key>ThrottleInterval</key>
+    <integer>10</integer>
+</dict>
+</plist>

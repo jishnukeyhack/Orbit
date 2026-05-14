@@ -1,0 +1,62 @@
+# Dependencies
+node_modules/
+
+# Build artifacts
+build/
+*.tgz
+
+# Environment & secrets
+.env
+.env.*
+
+# IDE & OS
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Git & Docker (self-referential)
+.git/
+.gitignore
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# Logs & runtime
+logs/
+*.log
+pids/
+*.pid
+*.pid.lock
+*.seed
+
+# Testing & coverage
+coverage/
+.nyc_output/
+__tests__/
+*.test.js
+*.test.ts
+
+# Documentation
+README.md
+docs/
+CHANGELOG.md
+
+# Claude Code
+.claude/
+
+# Development config
+.github/
+vitest.config.ts
+
+# Data (mounted as volumes)
+data/
+tmp/
+temp/
+trash/
+
+# Subprojects
+openclaw/

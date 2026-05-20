@@ -37,7 +37,7 @@
 
 ## ⬡ What is Orbit?
 
-**Orbit** is a full-stack autonomous AI agent infrastructure platform. It combines a beautiful enterprise-grade **Next.js dashboard** (`project-orbit-app`) with a powerful **multi-agent orchestration engine** (`OpenSwarm`) and a curated library of **210+ specialized agent system prompts** (`agency-agents`).
+**Orbit** is a full-stack autonomous AI agent infrastructure platform. It combines a beautiful enterprise-grade **Next.js dashboard** (`project-orbit-app`) with a powerful **multi-agent orchestration engine** (`OpenSwarm`) and a comprehensive **210+ specialized agent system prompt library** (`agency-agents-main`).
 
 Think of it as your mission control for AI — where every agent, swarm, workflow, and task is visible, controllable, and deployable from one place.
 
@@ -112,94 +112,250 @@ Staging:      https://orbit-staging.yourdomain.com
 
 ```
 Orbit/
-├── project-orbit-app/                  ← Next.js 16 dashboard (main UI)
-│   ├── src/
-│   │   ├── app/
-│   │   │   ├── page.tsx                ← Landing page (aurora wave animation)
-│   │   │   ├── (app)/                  ← Authenticated app shell
-│   │   │   │   ├── dashboard/          ← KPI cards, agent graph, activity feed
-│   │   │   │   ├── agents/             ← 210+ agent registry, run modal
-│   │   │   │   ├── swarms/             ← Multi-agent orchestration UI
-│   │   │   │   ├── workflows/          ← Visual workflow builder
-│   │   │   │   ├── pipeline/           ← Live pipeline execution view
-│   │   │   │   ├── terminal/           ← NLP-powered web terminal
-│   │   │   │   ├── marketplace/        ← Agent discovery & install
-│   │   │   │   ├── integrations/       ← Connect external services
-│   │   │   │   ├── logs/               ← Streaming log viewer
-│   │   │   │   ├── analytics/          ← Usage charts and metrics
-│   │   │   │   ├── deployments/        ← Deployment status tracker
-│   │   │   │   ├── automations/        ← Automation rules manager
-│   │   │   │   ├── billing/            ← Plan and usage management
-│   │   │   │   ├── api-keys/           ← API key management
-│   │   │   │   ├── team/               ← Team workspace
-│   │   │   │   └── settings/           ← Platform settings
-│   │   │   └── api/                    ← Next.js BFF API routes
-│   │   │       ├── agents/             ← GET list, POST run, GET by id
-│   │   │       ├── pipeline/           ← Pipeline + streaming SSE
-│   │   │       ├── swarms/             ← Swarm orchestration
-│   │   │       ├── workflow/           ← Workflow CRUD + execution
-│   │   │       ├── terminal/           ← PTY + NLP terminal
-│   │   │       ├── memory/             ← Memory read/write/search
-│   │   │       ├── chat/               ← AI assistant streaming
-│   │   │       ├── decision/           ← Decision engine
-│   │   │       └── status/             ← System health endpoint
-│   │   ├── components/
-│   │   │   ├── landing/WaveCanvas.tsx  ← Aurora wave animation (canvas)
-│   │   │   ├── layout/
-│   │   │   │   ├── Sidebar.tsx         ← Collapsible nav (240px / 64px)
-│   │   │   │   ├── TopNavbar.tsx       ← Search, AI command bar, profile
-│   │   │   │   └── StatusBar.tsx       ← System health strip
-│   │   │   └── ai-assistant/
-│   │   │       └── AssistantPanel.tsx  ← Floating copilot panel
-│   │   └── lib/
-│   │       ├── openswarm/
-│   │       │   ├── agentRegistry.ts    ← Loads 210+ .md agent definitions
-│   │       │   ├── agentRunner.ts      ← Executes agents via Claude API
-│   │       │   ├── agenticLoop.ts      ← Autonomous execution loop
-│   │       │   ├── decisionEngine.ts   ← Task routing and decisions
-│   │       │   ├── memoryEngine.ts     ← Agent memory (SQLite)
-│   │       │   ├── nlpTerminal.ts      ← Natural language → CLI
-│   │       │   ├── pipelineEngine.ts   ← Worker/Reviewer pipeline
-│   │       │   ├── swarmOrchestrator.ts← Multi-agent coordination
-│   │       │   ├── streamingChat.ts    ← SSE streaming responses
-│   │       │   ├── workflow.ts         ← Workflow execution engine
-│   │       │   └── types.ts            ← Shared TypeScript types
-│   │       └── server/
-│   │           ├── llm.ts              ← Anthropic SDK wrapper
-│   │           ├── db.ts               ← SQLite (better-sqlite3)
-│   │           ├── tools.ts            ← Tool definitions
-│   │           └── terminalServer.ts   ← PTY WebSocket server
+├── src/                                    ← Next.js 16 dashboard (main UI)
+│   ├── app/
+│   │   ├── page.tsx                        ← Landing page (aurora wave animation)
+│   │   ├── globals.css
+│   │   ├── icon.ico
+│   │   ├── layout.tsx
+│   │   │
+│   │   ├── (app)/                          ← Authenticated app shell
+│   │   │   ├── layout.tsx
+│   │   │   ├── dashboard/                  ← KPI cards, agent graph, activity feed
+│   │   │   ├── agents/                     ← 210+ agent registry, run modal
+│   │   │   ├── swarms/                     ← Multi-agent orchestration UI
+│   │   │   ├── workflows/                  ← Visual workflow builder
+│   │   │   ├── pipeline/                   ← Live pipeline execution view
+│   │   │   ├── terminal/                   ← NLP-powered web terminal
+│   │   │   ├── marketplace/                ← Agent discovery & install
+│   │   │   ├── integrations/               ← Connect external services
+│   │   │   ├── logs/                       ← Streaming log viewer
+│   │   │   ├── analytics/                  ← Usage charts and metrics
+│   │   │   ├── deployments/                ← Deployment status tracker
+│   │   │   ├── automations/                ← Automation rules manager
+│   │   │   ├── billing/                    ← Plan and usage management
+│   │   │   ├── api-keys/                   ← API key management
+│   │   │   ├── team/                       ← Team workspace
+│   │   │   └── settings/                   ← Platform settings
+│   │   │
+│   │   └── api/                            ← Next.js BFF API routes
+│   │       ├── agents/                     ← GET list, POST run, GET by id
+│   │       ├── pipeline/                   ← Pipeline + streaming SSE
+│   │       ├── swarms/                     ← Swarm orchestration
+│   │       ├── workflow/                   ← Workflow CRUD + execution
+│   │       ├── terminal/                   ← PTY + NLP terminal
+│   │       ├── memory/                     ← Memory read/write/search
+│   │       ├── chat/                       ← AI assistant streaming
+│   │       ├── decision/                   ← Decision engine
+│   │       ├── status/                     ← System health endpoint
+│   │       └── workspace/                  ← Workspace management
+│   │
+│   ├── components/
+│   │   ├── landing/
+│   │   │   └── WaveCanvas.tsx              ← Aurora wave animation (canvas)
+│   │   │
+│   │   ├── layout/
+│   │   │   ├── Sidebar.tsx                 ← Collapsible nav (240px / 64px)
+│   │   │   ├── TopNavbar.tsx               ← Search, AI command bar, profile
+│   │   │   ├── StatusBar.tsx               ← System health strip
+│   │   │   └── OrbitLogo.tsx               ← Brand logo component
+│   │   │
+│   │   └── ai-assistant/
+│   │       └── AssistantPanel.tsx          ← Floating copilot panel
+│   │
+│   └── lib/
+│       ├── agents-data.ts                  ← Agent metadata and configuration
+│       ├── domainIcons.ts                  ← Icon mappings for domains
+│       │
+│       ├── openswarm/                      ← Core orchestration engine
+│       │   ├── agentRegistry.ts            ← Loads 210+ .md agent definitions
+│       │   ├── agentRunner.ts              ← Executes agents via Claude API
+│       │   ├── agenticLoop.ts              ← Autonomous execution loop
+│       │   ├── agents-compiled.json        ← Compiled agent library (~2.4MB)
+│       │   ├── decisionEngine.ts           ← Task routing and decisions
+│       │   ├── memoryEngine.ts             ← Agent memory (SQLite)
+│       │   ├── nlpTerminal.ts              ← Natural language → CLI
+│       │   ├── pipelineEngine.ts           ← Worker/Reviewer pipeline
+│       │   ├── realPipeline.ts             ← Live pipeline execution
+│       │   ├── streamingChat.ts            ← SSE streaming responses
+│       │   ├── swarmOrchestrator.ts        ← Multi-agent coordination
+│       │   ├── types.ts                    ← Shared TypeScript types
+│       │   └── workflow.ts                 ← Workflow execution engine
+│       │
+│       └── server/                         ← Backend utilities (Node.js)
+│           ├── llm.ts                      ← Anthropic SDK wrapper
+│           ├── db.ts                       ← SQLite (better-sqlite3)
+│           ├── tools.ts                    ← Tool definitions
+│           └── terminalServer.ts           ← PTY WebSocket server
 │
-├── Project_Orbit/
-│   └── AgentFarm/AgentFarm/
-│       ├── OpenSwarm-main/             ← Agent orchestration engine
-│       │   └── src/
-│       │       ├── adapters/           ← claude / codex / gpt / local
-│       │       ├── agents/             ← worker, reviewer, auditor, tester...
-│       │       ├── automation/         ← autonomous runner, scheduler, PR processor
-│       │       ├── discord/            ← Discord bot integration
-│       │       ├── linear/             ← Linear issue sync
-│       │       ├── orchestration/      ← Task parser, conflict detector, workflow
-│       │       ├── memory/             ← LanceDB vector memory + compaction
-│       │       ├── knowledge/          ← Code graph, repository scanner
-│       │       └── issues/             ← SQLite issue store + GraphQL
-│       └── agency-agents-main/         ← 210+ agent system prompt library
-│           ├── engineering/            ← 30+ agents (AI Engineer, DevOps, SRE...)
-│           ├── marketing/              ← 28+ agents (SEO, TikTok, LinkedIn...)
-│           ├── design/                 ← 8 agents (UI Designer, UX Researcher...)
-│           ├── finance/                ← 5 agents (Analyst, Tax Strategist...)
-│           ├── sales/                  ← 8 agents (Coach, Deal Strategist...)
-│           ├── product/                ← 5 agents (PM, Sprint Prioritizer...)
-│           ├── strategy/               ← Multi-phase playbooks + runbooks
-│           ├── specialized/            ← 30+ vertical agents (Legal, Healthcare...)
-│           ├── game-development/       ← Unity, Unreal, Godot, Roblox agents
-│           ├── spatial-computing/      ← visionOS, XR, Metal agents
-│           ├── testing/                ← 8 agents (API Tester, Accessibility...)
-│           ├── support/                ← 6 agents (Reporter, Finance Tracker...)
-│           ├── academic/               ← 5 agents (Historian, Psychologist...)
-│           └── paid-media/             ← 7 agents (PPC, Programmatic...)
+├── agents/                                 ← Python agent server
+│   └── agent_server.py                     ← FastAPI/async agent runner
 │
-├── agentos/                            ← Standalone AgentOS Next.js scaffold
+├── agency-agents-main/                     ← 210+ agent system prompt library
+│   ├── engineering/                        ← 30+ agents
+│   │   ├── engineering-ai-engineer.md
+│   │   ├── engineering-backend-architect.md
+│   │   ├── engineering-devops-automator.md
+│   │   ├── engineering-frontend-developer.md
+│   │   ├── engineering-mobile-app-builder.md
+│   │   ├── engineering-rapid-prototyper.md
+│   │   ├── engineering-security-engineer.md
+│   │   ├── engineering-sre.md
+│   │   ├── engineering-data-engineer.md
+│   │   └── ... (25+ more)
+│   │
+│   ├── marketing/                          ← 28+ agents
+│   │   ├── marketing-content-creator.md
+│   │   ├── marketing-growth-hacker.md
+│   │   ├── marketing-seo-specialist.md
+│   │   ├── marketing-social-media-strategist.md
+│   │   ├── marketing-twitter-engager.md
+│   │   ├── marketing-tiktok-strategist.md
+│   │   ├── marketing-instagram-curator.md
+│   │   ├── marketing-reddit-community-builder.md
+│   │   └── ... (20+ more)
+│   │
+│   ├── design/                             ← 8 agents
+│   │   ├── design-ui-designer.md
+│   │   ├── design-ux-architect.md
+│   │   ├── design-ux-researcher.md
+│   │   ├── design-brand-guardian.md
+│   │   ├── design-visual-storyteller.md
+│   │   ├── design-whimsy-injector.md
+│   │   └── design-inclusive-visuals-specialist.md
+│   │
+│   ├── finance/                            ← 5 agents
+│   │   ├── finance-bookkeeper-controller.md
+│   │   ├── finance-financial-analyst.md
+│   │   ├── finance-fpa-analyst.md
+│   │   ├── finance-investment-researcher.md
+│   │   └── finance-tax-strategist.md
+│   │
+│   ├── sales/                              ← 8 agents
+│   │   ├── sales-outbound-strategist.md
+│   │   ├── sales-discovery-coach.md
+│   │   ├── sales-deal-strategist.md
+│   │   ├── sales-engineer.md
+│   │   ├── sales-proposal-strategist.md
+│   │   ├── sales-pipeline-analyst.md
+│   │   ├── sales-account-strategist.md
+│   │   └── sales-coach.md
+│   │
+│   ├── product/                            ← 5 agents
+│   │   ├── product-manager.md
+│   │   ├── product-sprint-prioritizer.md
+│   │   ├── product-trend-researcher.md
+│   │   ├── product-feedback-synthesizer.md
+│   │   └── product-behavioral-nudge-engine.md
+│   │
+│   ├── strategy/                           ← Multi-phase playbooks
+│   │   └── strategy-*.md                   ← 6+ strategic agents
+│   │
+│   ├── specialized/                        ← 30+ vertical specialists
+│   │   ├── specialized-legal-consultant.md
+│   │   ├── specialized-healthcare-advisor.md
+│   │   ├── specialized-blockchain-auditor.md
+│   │   ├── specialized-real-estate-agent.md
+│   │   └── ... (26+ more)
+│   │
+│   ├── game-development/                   ← 16 agents
+│   │   ├── game-designer.md
+│   │   ├── level-designer.md
+│   │   ├── unity/                          ← Unity-specific (4 agents)
+│   │   │   ├── unity-architect.md
+│   │   │   ├── unity-shader-graph-artist.md
+│   │   │   ├── unity-multiplayer-engineer.md
+│   │   │   └── unity-editor-tool-developer.md
+│   │   ├── unreal-engine/                  ← Unreal-specific (4 agents)
+│   │   │   ├── unreal-systems-engineer.md
+│   │   │   ├── unreal-technical-artist.md
+│   │   │   ├── unreal-multiplayer-architect.md
+│   │   │   └── unreal-world-builder.md
+│   │   ├── godot/                          ← Godot-specific (3 agents)
+│   │   │   ├── godot-gameplay-scripter.md
+│   │   │   ├── godot-multiplayer-engineer.md
+│   │   │   └── godot-shader-developer.md
+│   │   └── roblox-studio/                  ← Roblox-specific (3 agents)
+│   │       ├── roblox-systems-scripter.md
+│   │       ├── roblox-experience-designer.md
+│   │       └── roblox-avatar-creator.md
+│   │
+│   ├── spatial-computing/                  ← 6 agents (XR, visionOS, Metal)
+│   │   ├── xr-interface-architect.md
+│   │   ├── visionos-spatial-engineer.md
+│   │   ├── macos-spatial-metal-engineer.md
+│   │   └── ... (3+ more)
+│   │
+│   ├── testing/                            ← 8 agents
+│   │   ├── testing-api-tester.md
+│   │   ├── testing-accessibility-auditor.md
+│   │   ├── testing-performance-benchmarker.md
+│   │   ├── testing-evidence-collector.md
+│   │   ├── testing-reality-checker.md
+│   │   └── ... (3+ more)
+│   │
+│   ├── support/                            ← 6 agents
+│   │   ├── support-support-responder.md
+│   │   ├── support-analytics-reporter.md
+│   │   ├── support-finance-tracker.md
+│   │   ├── support-infrastructure-maintainer.md
+│   │   └── ... (2+ more)
+│   │
+│   ├── academic/                           ← 5 agents
+│   │   ├── academic-historian.md
+│   │   ├── academic-anthropologist.md
+│   │   ├── academic-psychologist.md
+│   │   ├── academic-geographer.md
+│   │   └── academic-narratologist.md
+│   │
+│   ├── paid-media/                         ← 7 agents
+│   │   ├── paid-media-ppc-strategist.md
+│   │   ├── paid-media-search-query-analyst.md
+│   │   ├── paid-media-tracking-specialist.md
+│   │   └── ... (4+ more)
+│   │
+│   ├── project-management/                 ← 6 agents
+│   │   ├── project-management-studio-producer.md
+│   │   ├── project-management-project-shepherd.md
+│   │   ├── project-management-jira-workflow-steward.md
+│   │   └── ... (3+ more)
+│   │
+│   ├── README.md                           ← Agency agents documentation
+│   ├── CONTRIBUTING.md
+│   ├── LICENSE
+│   └── SECURITY.md
+│
+├── scripts/
+│   └── compile-agents.js                   ← Build script (compiles agents to JSON)
+│
+├── public/
+│   ├── favicon.ico
+│   ├── logo.png
+│   ├── logo-dark.png
+│   ├── file.svg
+│   ├── globe.svg
+│   ├── next.svg
+│   ├── vercel.svg
+│   ├── window.svg
+│   └── agency-agents-main/                 ← Symlink to agents dir
+│
+├── orbit-workspace/
+│   └── agents/                             ← Workspace-scoped agents
+│
+├── eslint.config.mjs
+├── next.config.ts
+├── package.json
+├── package-lock.json
+├── postcss.config.mjs
+├── tsconfig.json
+├── orbit.db                                ← SQLite database (task state)
+├── build.log
+├── errors.txt
+├── remove_all_emojis.js
+├── test-db.js
+├── AGENTS.md
+├── CLAUDE.md
+├── README.md
 └── .gitignore
 ```
 
@@ -208,46 +364,46 @@ Orbit/
 ## 🏗️ Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────────────┐
-│                    project-orbit-app (Next.js 16)                   │
-│                                                                     │
-│  Landing Page (aurora wave)  →  App Shell (Sidebar + Navbar)        │
-│                                                                     │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌────────────────────┐  │
-│  │ Agents   │  │ Swarms   │  │Workflows │  │ Terminal (NLP+PTY)  │  │
-│  │ Registry │  │Orchestr. │  │ Builder  │  │  nlpTerminal.ts    │  │
-│  └────┬─────┘  └────┬─────┘  └────┬─────┘  └────────────────────┘  │
-│       │              │              │                                 │
-│  ┌────▼──────────────▼──────────────▼──────────────────────────┐    │
-│  │                   lib/openswarm/                             │    │
-│  │  agentRunner → agenticLoop → pipelineEngine → streamingChat │    │
-│  │  decisionEngine → swarmOrchestrator → memoryEngine          │    │
-│  └────────────────────────────┬────────────────────────────────┘    │
-│                               │ Anthropic API (claude-sonnet-4)     │
-└───────────────────────────────┼─────────────────────────────────────┘
+┌────────────────────────────────────────────────────────────────────────────┐
+│                    project-orbit-app (Next.js 16)                          │
+│                                                                            │
+│  Landing Page (aurora wave)  →  App Shell (Sidebar + Navbar)               │
+│                                                                            │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌────────────────────┐        │
+│  │ Agents   │  │ Swarms   │  │Workflows │  │ Terminal (NLP+PTY)  │        │
+│  │ Registry │  │Orchestr. │  │ Builder  │  │  nlpTerminal.ts    │        │
+│  └────┬─────┘  └────┬─────┘  └────┬─────┘  └────────────────────┘        │
+│       │              │              │                                      │
+│  ┌────▼──────────────▼──────────────▼──────────────────────────┐          │
+│  │                   lib/openswarm/                             │          │
+│  │  agentRunner → agenticLoop → pipelineEngine → streamingChat │          │
+│  │  decisionEngine → swarmOrchestrator → memoryEngine          │          │
+│  └────────────────────────────┬────────────────────────────────┘          │
+│                               │ Anthropic API (claude-sonnet-4)           │
+└───────────────────────────────┼────────────────────────────────────────────┘
                                 │
-┌───────────────────────────────▼─────────────────────────────────────┐
-│                  OpenSwarm Engine (@intrect/openswarm 0.4.4)         │
-│                                                                     │
-│  Triggers:  Discord Bot  ←→  Linear Issues  ←→  GitHub PRs          │
-│                                                                     │
-│  Pipeline:  [Task] → [Planner] → [Worker] → [Reviewer] → [Commit]   │
-│                                                                     │
-│  Adapters:  claude | codex | gpt | local (Ollama/LMStudio/llama.cpp)│
-│                                                                     │
-│  Memory:    LanceDB (vector) + SQLite (task state + issues)         │
-│  Knowledge: Code graph scanner + repository analyzer                │
-│                                                                     │
-│  Guards:    qualityGate | fakeDataGuard | conventionalCommits        │
-│             branchValidation | uncertaintyDetection | bsDetector    │
-└─────────────────────────────────────────────────────────────────────┘
+┌───────────────────────────────▼────────────────────────────────────────────┐
+│                  OpenSwarm Engine (@intrect/openswarm 0.4.4)              │
+│                                                                            │
+│  Triggers:  Discord Bot  ←→  Linear Issues  ←→  GitHub PRs               │
+│                                                                            │
+│  Pipeline:  [Task] → [Planner] → [Worker] → [Reviewer] → [Commit]        │
+│                                                                            │
+│  Adapters:  claude | codex | gpt | local (Ollama/LMStudio/llama.cpp)     │
+│                                                                            │
+│  Memory:    LanceDB (vector) + SQLite (task state + issues)               │
+│  Knowledge: Code graph scanner + repository analyzer                      │
+│                                                                            │
+│  Guards:    qualityGate | fakeDataGuard | conventionalCommits             │
+│             branchValidation | uncertaintyDetection | bsDetector          │
+└────────────────────────────────────────────────────────────────────────────┘
                                 │
-┌───────────────────────────────▼─────────────────────────────────────┐
-│            agency-agents  (210+ system prompt library)               │
-│                                                                     │
-│  Each .md file = YAML frontmatter + full system prompt               │
-│  agentRegistry.ts parses and serves them via /api/agents            │
-└─────────────────────────────────────────────────────────────────────┘
+┌───────────────────────────────▼────────────────────────────────────────────┐
+│            agency-agents  (210+ system prompt library)                     │
+│                                                                            │
+│  Each .md file = YAML frontmatter + full system prompt                    │
+│  agentRegistry.ts parses and serves them via /api/agents                 │
+└────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ### How an Agent Task Flows End-to-End
@@ -341,7 +497,7 @@ You are an expert AI/ML engineer...
 
 ## 📦 Tech Stack
 
-### Dashboard — `project-orbit-app`
+### Dashboard — `src/`
 
 | Layer | Technology |
 |-------|-----------|
@@ -356,7 +512,7 @@ You are an expert AI/ML engineer...
 | Icons | Lucide React |
 | AI | Anthropic SDK (via `lib/server/llm.ts`) |
 
-### Orchestration Engine — `OpenSwarm`
+### Orchestration Engine — `agents/`
 
 | Layer | Technology |
 |-------|-----------|
@@ -398,11 +554,9 @@ cd Orbit
 
 ---
 
-### 2. Set Up the Dashboard (`project-orbit-app`)
+### 2. Set Up the Dashboard
 
 ```bash
-cd project-orbit-app
-
 # Install dependencies
 npm install
 
@@ -432,10 +586,10 @@ npm run start
 
 ---
 
-### 3. Set Up the Orchestration Engine (`OpenSwarm`)
+### 3. Set Up the Orchestration Engine
 
 ```bash
-cd Project_Orbit/AgentFarm/AgentFarm/OpenSwarm-main/OpenSwarm-main
+cd agents
 
 # Install dependencies
 npm install
@@ -517,7 +671,7 @@ reviewer:
 
 ---
 
-### 5. Running Agents from the CLI (OpenSwarm)
+### 5. Running Agents from the CLI
 
 ```bash
 # Create and deploy a task
@@ -613,7 +767,7 @@ The codebase is structured to receive auth at the `(app)/layout.tsx` level — a
 
 ## 📡 API Reference
 
-All routes live under `/api/` in `project-orbit-app`:
+All routes live under `/api/` in the Next.js app:
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
@@ -656,34 +810,16 @@ data: {"type":"done","data":{"tokens":847,"cost":0.0021}}
 
 ## 🧪 Development
 
-### Running Tests (OpenSwarm)
+### Running Tests
 
 ```bash
-cd Project_Orbit/AgentFarm/AgentFarm/OpenSwarm-main/OpenSwarm-main
 npm test              # Run all tests
 npm run test:watch    # Watch mode
-```
-
-Test files are co-located with source:
-
-```
-src/agents/worker.test.ts
-src/agents/reviewer.test.ts
-src/agents/agentPair.test.ts
-src/adapters/codex.test.ts
-src/core/config.test.ts
 ```
 
 ### Linting & Type Checking
 
 ```bash
-# Dashboard
-cd project-orbit-app
-npm run lint
-npx tsc --noEmit
-
-# OpenSwarm
-cd Project_Orbit/AgentFarm/AgentFarm/OpenSwarm-main/OpenSwarm-main
 npm run lint
 npx tsc --noEmit
 ```
@@ -694,7 +830,7 @@ Create a new `.md` file in the appropriate category folder:
 
 ```bash
 # Example: new engineering agent
-touch Project_Orbit/AgentFarm/AgentFarm/agency-agents-main/agency-agents-main/engineering/engineering-my-new-agent.md
+touch agency-agents-main/engineering/engineering-my-new-agent.md
 ```
 
 Use this template:
@@ -727,13 +863,13 @@ The agent appears in the dashboard immediately — no code changes needed. `agen
 
 ### Environment Variables Reference
 
-**`project-orbit-app/.env.local`**
+**`.env.local`** (Next.js Dashboard)
 
 ```env
 ANTHROPIC_API_KEY=          # Required — Claude API key for agent execution
 ```
 
-**`OpenSwarm/.env`**
+**`agents/.env`** (Orchestration Engine)
 
 ```env
 DISCORD_TOKEN=              # Discord bot token
@@ -755,7 +891,7 @@ OPENSWARM_TASK_STATE_FILE=  # Optional — custom task state path
 OpenSwarm ships with Docker support:
 
 ```bash
-cd Project_Orbit/AgentFarm/AgentFarm/OpenSwarm-main/OpenSwarm-main
+cd agents
 
 # Build and run with Docker Compose
 docker compose up --build
@@ -809,8 +945,8 @@ git checkout -b feat/your-feature-name
 
 # 3. Make your changes
 # For new agents: add .md file to the right category in agency-agents-main/
-# For UI changes: work in project-orbit-app/src/
-# For engine changes: work in OpenSwarm-main/src/
+# For UI changes: work in src/
+# For engine changes: work in agents/
 
 # 4. Commit using conventional commits
 git commit -m "feat: add healthcare-appointment-scheduler agent"

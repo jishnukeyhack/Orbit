@@ -27,7 +27,7 @@
 
 <br/>
 
-[**Live Demo**](#-https://orbit-166816904008.us-central1.run.app) · [**Quick Start**](#-quick-start) · [**Architecture**](#-architecture) · [**Agent Registry**](#-agent-registry) · [**Contributing**](#-contributing)
+[**Live Demo**](https://orbit-166816904008.us-central1.run.app) · [**Quick Start**](#-quick-start) · [**Architecture**](#-architecture) · [**Agent Registry**](#-agent-registry) · [**Contributing**](#-contributing)
 
 <br/>
 

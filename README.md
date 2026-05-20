@@ -6,7 +6,7 @@
 <img src="https://img.shields.io/badge/Next.js-16.2.6-000000?style=for-the-badge&logo=next.js&logoColor=white&labelColor=0B0F19" alt="Next.js"/>
 <img src="https://img.shields.io/badge/TypeScript-5.x-3178C6?style=for-the-badge&logo=typescript&logoColor=white&labelColor=0B0F19" alt="TypeScript"/>
 <img src="https://img.shields.io/badge/OpenSwarm-0.4.4-7B61FF?style=for-the-badge&labelColor=0B0F19" alt="OpenSwarm"/>
-<img src="https://img.shields.io/badge/agents-210+-4F8CFF?style=for-the-badge&labelColor=0B0F19" alt="Agents"/>
+<img src="https://img.shields.io/badge/agents-175+-4F8CFF?style=for-the-badge&labelColor=0B0F19" alt="Agents"/>
 <img src="https://img.shields.io/badge/license-MIT-22C55E?style=for-the-badge&labelColor=0B0F19" alt="License"/>
 
 <br/><br/>
@@ -23,7 +23,7 @@
 ### **Orchestrating Autonomous Intelligence Into Action**
 
 *A next-generation AI Agent Infrastructure Platform — create, deploy, orchestrate,*  
-*monitor, and run 210+ specialized AI agents from a single unified dashboard.*
+*monitor, and run 175+ specialized AI agents from a single unified dashboard.*
 
 <br/>
 
@@ -37,7 +37,7 @@
 
 ## ⬡ What is Orbit?
 
-**Orbit** is a full-stack autonomous AI agent infrastructure platform. It combines a beautiful enterprise-grade **Next.js dashboard** (`project-orbit-app`) with a powerful **multi-agent orchestration engine** (`OpenSwarm`) and a comprehensive **210+ specialized agent system prompt library** (`agency-agents-main`).
+**Orbit** is a full-stack autonomous AI agent infrastructure platform. It combines a beautiful enterprise-grade **Next.js dashboard** (`project-orbit-app`) with a powerful **multi-agent orchestration [...]
 
 Think of it as your mission control for AI — where every agent, swarm, workflow, and task is visible, controllable, and deployable from one place.
 
@@ -64,10 +64,10 @@ Staging:      https://orbit-staging.yourdomain.com
 <td width="50%">
 
 ### 🧠 Agent Infrastructure
-- **210+ specialized agents** across 15 categories
+- **175+ specialized agents** across 15 categories
 - Live agent execution with streaming output
 - Real-time token tracking and cost estimation
-- Multi-model support: Claude, GPT, Codex, Gemma, local
+- Multi-model support: Gemini, OpenAI GPT, Codex, Gemma, local
 - Agent-to-agent memory sharing
 
 </td>
@@ -122,7 +122,7 @@ Orbit/
 │   │   ├── (app)/                          ← Authenticated app shell
 │   │   │   ├── layout.tsx
 │   │   │   ├── dashboard/                  ← KPI cards, agent graph, activity feed
-│   │   │   ├── agents/                     ← 210+ agent registry, run modal
+│   │   │   ├── agents/                     ← 175+ agent registry, run modal
 │   │   │   ├── swarms/                     ← Multi-agent orchestration UI
 │   │   │   ├── workflows/                  ← Visual workflow builder
 │   │   │   ├── pipeline/                   ← Live pipeline execution view
@@ -168,8 +168,8 @@ Orbit/
 │       ├── domainIcons.ts                  ← Icon mappings for domains
 │       │
 │       ├── openswarm/                      ← Core orchestration engine
-│       │   ├── agentRegistry.ts            ← Loads 210+ .md agent definitions
-│       │   ├── agentRunner.ts              ← Executes agents via Claude API
+│       │   ├── agentRegistry.ts            ← Loads 175+ .md agent definitions
+│       │   ├── agentRunner.ts              ← Executes agents via Gemini/OpenAI API
 │       │   ├── agenticLoop.ts              ← Autonomous execution loop
 │       │   ├── agents-compiled.json        ← Compiled agent library (~2.4MB)
 │       │   ├── decisionEngine.ts           ← Task routing and decisions
@@ -183,7 +183,7 @@ Orbit/
 │       │   └── workflow.ts                 ← Workflow execution engine
 │       │
 │       └── server/                         ← Backend utilities (Node.js)
-│           ├── llm.ts                      ← Anthropic SDK wrapper
+│           ├── llm.ts                      ← Gemini & OpenAI SDK wrapper
 │           ├── db.ts                       ← SQLite (better-sqlite3)
 │           ├── tools.ts                    ← Tool definitions
 │           └── terminalServer.ts           ← PTY WebSocket server
@@ -191,7 +191,7 @@ Orbit/
 ├── agents/                                 ← Python agent server
 │   └── agent_server.py                     ← FastAPI/async agent runner
 │
-├── agency-agents-main/                     ← 210+ agent system prompt library
+├── agency-agents-main/                     ← 175+ agent system prompt library
 │   ├── engineering/                        ← 30+ agents
 │   │   ├── engineering-ai-engineer.md
 │   │   ├── engineering-backend-architect.md
@@ -364,7 +364,7 @@ Orbit/
 ## 🏗️ Architecture
 
 ```
-┌────────────────────────────────────────────────────────────────────────────┐
+┌─────────────────────────────────────────────────────────────────────┐
 │                    project-orbit-app (Next.js 16)                          │
 │                                                                            │
 │  Landing Page (aurora wave)  →  App Shell (Sidebar + Navbar)               │
@@ -374,36 +374,36 @@ Orbit/
 │  │ Registry │  │Orchestr. │  │ Builder  │  │  nlpTerminal.ts    │        │
 │  └────┬─────┘  └────┬─────┘  └────┬─────┘  └────────────────────┘        │
 │       │              │              │                                      │
-│  ┌────▼──────────────▼──────────────▼──────────────────────────┐          │
+│  ┌────▼──────────────▼──────────────▼──────────────────────────┐           │
 │  │                   lib/openswarm/                             │          │
 │  │  agentRunner → agenticLoop → pipelineEngine → streamingChat │          │
 │  │  decisionEngine → swarmOrchestrator → memoryEngine          │          │
-│  └────────────────────────────┬────────────────────────────────┘          │
-│                               │ Anthropic API (claude-sonnet-4)           │
-└───────────────────────────────┼────────────────────────────────────────────┘
+│  └────────────────────────────┬────────────────────────────────┘           │
+│                               │ Gemini & OpenAI APIs                      │
+└───────────────────────────────┼─────────────────────────────────────────┘
                                 │
-┌───────────────────────────────▼────────────────────────────────────────────┐
-│                  OpenSwarm Engine (@intrect/openswarm 0.4.4)              │
-│                                                                            │
-│  Triggers:  Discord Bot  ←→  Linear Issues  ←→  GitHub PRs               │
-│                                                                            │
-│  Pipeline:  [Task] → [Planner] → [Worker] → [Reviewer] → [Commit]        │
-│                                                                            │
-│  Adapters:  claude | codex | gpt | local (Ollama/LMStudio/llama.cpp)     │
-│                                                                            │
-│  Memory:    LanceDB (vector) + SQLite (task state + issues)               │
-│  Knowledge: Code graph scanner + repository analyzer                      │
-│                                                                            │
-│  Guards:    qualityGate | fakeDataGuard | conventionalCommits             │
-│             branchValidation | uncertaintyDetection | bsDetector          │
-└────────────────────────────────────────────────────────────────────────────┘
+┌───────────────────────────────▼─────────────────────────────────────────┐
+│                  OpenSwarm Engine (@intrect/openswarm 0.4.4)             │
+│                                                                          │
+│  Triggers:  Discord Bot  ←→  Linear Issues  ←→  GitHub PRs             │
+│                                                                          │
+│  Pipeline:  [Task] → [Planner] → [Worker] → [Reviewer] → [Commit]      │
+│                                                                          │
+│  Adapters:  gemini | openai-gpt | codex | local (Ollama/LMStudio)      │
+│                                                                          │
+│  Memory:    LanceDB (vector) + SQLite (task state + issues)             │
+│  Knowledge: Code graph scanner + repository analyzer                    │
+│                                                                          │
+│  Guards:    qualityGate | fakeDataGuard | conventionalCommits           │
+│             branchValidation | uncertaintyDetection | bsDetector        │
+└─────────────────────────────────────────────────────────────────────────┘
                                 │
-┌───────────────────────────────▼────────────────────────────────────────────┐
-│            agency-agents  (210+ system prompt library)                     │
-│                                                                            │
-│  Each .md file = YAML frontmatter + full system prompt                    │
-│  agentRegistry.ts parses and serves them via /api/agents                 │
-└────────────────────────────────────────────────────────────────────────────┘
+┌───────────────────────────────▼─────────────────────────────────────────┐
+│            agency-agents  (175+ system prompt library)                   │
+│                                                                          │
+│  Each .md file = YAML frontmatter + full system prompt                  │
+│  agentRegistry.ts parses and serves them via /api/agents               │
+└─────────────────────────────────────────────────────────────────────────┘
 ```
 
 ### How an Agent Task Flows End-to-End
@@ -412,8 +412,8 @@ Orbit/
 1. Trigger arrives        Discord message / Linear issue / GitHub PR / Dashboard "Run"
 2. Task parsed            orchestration/taskParser.ts extracts title, description, labels
 3. Skill matched          agentRegistry.ts → finds matching .md system prompt by category
-4. Worker invoked         pipelineEngine.ts → agentRunner.ts → Anthropic API (streaming)
-5. Output reviewed        reviewer.ts → local Gemma (free) or Claude Sonnet (escalation)
+4. Worker invoked         pipelineEngine.ts → agentRunner.ts → Gemini/OpenAI API (streaming)
+5. Output reviewed        reviewer.ts → local Gemma (free) or GPT (escalation)
 6. Quality gates          pipelineGuards.ts → bsDetector, fakeDataGuard, conventionalCommits
 7. Committed              git commit → PR opened → Linear status updated → Discord notified
 ```
@@ -446,7 +446,7 @@ The UI is built on a premium dark design system — no third-party component lib
 
 ## 🤖 Agent Registry
 
-All **210+ agents** live in `agency-agents-main/` as Markdown files with YAML frontmatter. The `agentRegistry.ts` parses them at runtime and serves them via `/api/agents`.
+All **175+ agents** live in `agency-agents-main/` as Markdown files with YAML frontmatter. The `agentRegistry.ts` parses them at runtime and serves them via `/api/agents`.
 
 Each agent file follows this format:
 
@@ -487,7 +487,7 @@ You are an expert AI/ML engineer...
 ### Running an Agent from the Dashboard
 
 1. Navigate to **Agents** page
-2. Browse or search the registry (210+ agents shown in grid)
+2. Browse or search the registry (175+ agents shown in grid)
 3. Click **▶ Run Task** on any agent card
 4. Enter your task in the modal (supports Ctrl+Enter)
 5. Watch the streaming output in real-time
@@ -510,7 +510,7 @@ You are an expert AI/ML engineer...
 | Database | better-sqlite3 (memory, task state) |
 | Real-time | WebSocket (`ws`) + SSE (ReadableStream) |
 | Icons | Lucide React |
-| AI | Anthropic SDK (via `lib/server/llm.ts`) |
+| AI | Gemini API & OpenAI SDK (via `lib/server/llm.ts`) |
 
 ### Orchestration Engine — `agents/`
 
@@ -539,7 +539,8 @@ git --version    # Need: 2.x+
 ```
 
 You will also need:
-- **Anthropic API key** — for agent execution ([get one here](https://console.anthropic.com))
+- **Gemini API key** — for agent execution ([get one here](https://ai.google.dev))
+- **OpenAI API key** — for agent execution ([get one here](https://platform.openai.com/api-keys))
 - **Linear API key** — for issue-based task triggering (optional)
 - **Discord Bot Token** — for Discord-based triggering (optional)
 
@@ -567,7 +568,8 @@ cp .env.example .env.local
 Add this to `.env.local`:
 
 ```env
-ANTHROPIC_API_KEY=your_anthropic_api_key_here
+GEMINI_API_KEY=your_gemini_api_key_here
+OPENAI_API_KEY=your_openai_api_key_here
 ```
 
 Start the development server:
@@ -601,6 +603,10 @@ cp .env.example .env
 Edit `.env` with your real values:
 
 ```env
+# Required for Gemini and OpenAI
+GEMINI_API_KEY=your_gemini_api_key_here
+OPENAI_API_KEY=your_openai_api_key_here
+
 # Required for Discord triggering
 DISCORD_TOKEN=your_discord_bot_token
 DISCORD_CHANNEL_ID=your_channel_id
@@ -620,7 +626,7 @@ cp config.example.yaml config.yaml
 Key settings in `config.yaml`:
 
 ```yaml
-adapter: claude          # claude | codex | gpt | local
+adapter: gemini          # gemini | openai-gpt | codex | local
 
 autonomous:
   enabled: true
@@ -629,8 +635,8 @@ autonomous:
 
   defaultRoles:
     worker:
-      adapter: claude
-      model: claude-sonnet-4-20250514
+      adapter: gemini
+      model: gemini-2.0-flash
     reviewer:
       adapter: local           # Free — uses local Gemma via LMStudio
       model: gemma-4-e4b-it
@@ -702,7 +708,7 @@ You: Build me a TypeScript utility that debounces async functions
 
 → OpenSwarm picks up the message
 → Matches to best agent (engineering-senior-developer.md)
-→ Worker runs with Claude Sonnet
+→ Worker runs with Gemini or OpenAI GPT
 → Reviewer checks with local Gemma
 → Commits to your project repo
 → Discord: "✓ Task complete. PR: github.com/your/repo/pull/42"
@@ -738,7 +744,7 @@ OpenSwarm monitors PRs and auto-improves them through Worker → Reviewer cycles
 |------|-------|-------------|
 | **Landing** | `/` | Aurora wave animation, hero, feature pills, stats |
 | **Dashboard** | `/dashboard` | KPI cards, agent activity feed, agent graph, AI suggestions |
-| **Agents** | `/agents` | 210+ agent registry with search, filter, run modal |
+| **Agents** | `/agents` | 175+ agent registry with search, filter, run modal |
 | **Swarms** | `/swarms` | Multi-agent orchestration canvas (React Flow) |
 | **Workflows** | `/workflows` | Visual workflow builder with 14 block types |
 | **Pipeline** | `/pipeline` | Live Worker → Reviewer pipeline execution view |
@@ -759,7 +765,7 @@ OpenSwarm monitors PRs and auto-improves them through Worker → Reviewer cycles
 ## 🔐 Authentication
 
 > **Authentication is not yet implemented.**  
-> It is planned for a future release. The deployment is currently open (no login required). When auth ships, this section will be updated with setup instructions for the chosen provider (likely NextAuth.js or Clerk).
+> It is planned for a future release. The deployment is currently open (no login required). When auth ships, this section will be updated with setup instructions for the chosen provider (likely NextAuth[...].
 
 The codebase is structured to receive auth at the `(app)/layout.tsx` level — a session check can be added there with minimal changes to existing pages.
 
@@ -866,12 +872,16 @@ The agent appears in the dashboard immediately — no code changes needed. `agen
 **`.env.local`** (Next.js Dashboard)
 
 ```env
-ANTHROPIC_API_KEY=          # Required — Claude API key for agent execution
+GEMINI_API_KEY=         # Required — Gemini API key for agent execution
+OPENAI_API_KEY=         # Required — OpenAI API key for agent execution
 ```
 
 **`agents/.env`** (Orchestration Engine)
 
 ```env
+GEMINI_API_KEY=         # Required — Gemini API key
+OPENAI_API_KEY=         # Required — OpenAI API key
+
 DISCORD_TOKEN=              # Discord bot token
 DISCORD_CHANNEL_ID=         # Channel to listen on
 DISCORD_ALLOWED_USERS=      # Comma-separated user IDs
@@ -880,7 +890,6 @@ DISCORD_WEBHOOK_URL=        # Optional rich notifications
 LINEAR_API_KEY=             # Linear personal API key
 LINEAR_TEAM_ID=             # Linear team UUID
 
-OPENAI_CLIENT_ID=           # Optional — for Codex adapter OAuth
 OPENSWARM_TASK_STATE_FILE=  # Optional — custom task state path
 ```
 
@@ -910,7 +919,7 @@ docker run -d \
 ## 🗺️ Roadmap
 
 - [x] Landing page with aurora wave animation
-- [x] 210+ agent system prompt library
+- [x] 175+ agent system prompt library
 - [x] Next.js dashboard with 16 app pages
 - [x] OpenSwarm orchestration engine (Worker → Reviewer pipeline)
 - [x] Discord and Linear integrations
@@ -999,8 +1008,9 @@ Orbit is built on the shoulders of incredible open-source projects:
 | Project | What it powers |
 |---------|----------------|
 | [OpenSwarm](https://github.com/intrect/openswarm) | Core orchestration engine (Worker → Reviewer pipeline) |
-| [agency-agents](https://github.com/agency-swarm/agency-agents) | 210+ specialized agent system prompts |
-| [Anthropic Claude](https://anthropic.com) | Primary AI model for agent execution |
+| [agency-agents](https://github.com/agency-swarm/agency-agents) | 175+ specialized agent system prompts |
+| [Gemini API](https://ai.google.dev) | AI model for agent execution |
+| [OpenAI GPT](https://openai.com) | AI model for agent execution |
 | [Next.js](https://nextjs.org) | Full-stack React framework |
 | [LanceDB](https://lancedb.com) | Vector database for agent memory |
 | [discord.js](https://discord.js.org) | Discord bot integration |
@@ -1012,7 +1022,7 @@ Orbit is built on the shoulders of incredible open-source projects:
 
 <br/>
 
-**Built by [Jishnu Chauhan](https://github.com/jishnukeyhack)**
+**Built by [Jishnu Chauhan](https://github.com/jishnukeyhack), [Contributor 2 Name](https://github.com/contributor2), and [Contributor 3 Name](https://github.com/contributor3)**
 
 <br/>
 

@@ -27,7 +27,7 @@
 
 <br/>
 
-[**Live Demo**](#-deployed-link) · [**Quick Start**](#-quick-start) · [**Architecture**](#-architecture) · [**Agent Registry**](#-agent-registry) · [**Contributing**](#-contributing)
+[**Live Demo**](#-https://orbit-166816904008.us-central1.run.app) · [**Quick Start**](#-quick-start) · [**Architecture**](#-architecture) · [**Agent Registry**](#-agent-registry) · [**Contributing**](#-contributing)
 
 <br/>
 
@@ -946,7 +946,7 @@ Contributions are welcome — especially new agent system prompts!
 
 ```bash
 # 1. Fork and clone
-git clone https://github.com/YOUR_USERNAME/Orbit.git
+git clone https://github.com/jishnukeyhack/Orbit.git
 cd Orbit
 
 # 2. Create a feature branch
@@ -982,7 +982,7 @@ test:     adding or updating tests
 ```
 MIT License
 
-Copyright (c) 2025 Jishnu Chauhan
+Copyright (c) 2026 Jishnu Chauhan
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -1022,7 +1022,7 @@ Orbit is built on the shoulders of incredible open-source projects:
 
 <br/>
 
-**Built by [Jishnu Chauhan](https://github.com/jishnukeyhack), [Contributor 2 Name](https://github.com/contributor2), and [Contributor 3 Name](https://github.com/contributor3)**
+**Built by [Jishnu Chauhan](https://github.com/jishnukeyhack), [Aditya Kumar](https://github.com/Aditya-Logic), and [Pallab](https://github.com/ProfessionalPallav20014)**
 
 <br/>
 

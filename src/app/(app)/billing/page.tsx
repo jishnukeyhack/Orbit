@@ -50,11 +50,11 @@ export default function BillingPage() {
               ))}
             </div>
             {plan.current ? (
-              <button className="btn-ghost" style={{ justifyContent: "center", opacity: 0.6 }}>Current Plan</button>
+              <button disabled className="btn-ghost" style={{ justifyContent: "center", opacity: 0.5, cursor: "not-allowed" }}>Current Plan</button>
             ) : plan.name === "Enterprise" ? (
-              <button className="btn-ghost" style={{ justifyContent: "center" }}>Contact Sales</button>
+              <button className="btn-ghost" onClick={() => window.location.href = 'mailto:jc@orbit.ai?subject=Enterprise Plan Inquiry'} style={{ justifyContent: "center" }}>Contact Sales</button>
             ) : (
-              <button className="btn-primary" style={{ justifyContent: "center" }}>Upgrade →</button>
+              <button className="btn-primary" onClick={() => window.open('https://github.com/jishnukeyhack/Orbit', '_blank')} title="Payment integration coming soon" style={{ justifyContent: "center" }}>Upgrade →</button>
             )}
           </div>
         ))}
@@ -84,7 +84,24 @@ export default function BillingPage() {
       {/* Payment history */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
         <h2 style={{ fontSize: "1.125rem", fontWeight: 600, margin: 0 }}>Payment History</h2>
-        <button className="btn-ghost" style={{ padding: "5px 10px", fontSize: "0.72rem" }}><Download size={12} /> Export</button>
+        <button 
+          className="btn-ghost" 
+          onClick={() => {
+            const csvContent = "Date,Description,Amount,Status\n" + PAYMENTS.map(p => \`"\${p.date}","\${p.desc}","\${p.amount}","\${p.status}"\`).join("\n");
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.setAttribute("href", url);
+            link.setAttribute("download", "payment_history.csv");
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          }}
+          style={{ padding: "5px 10px", fontSize: "0.72rem" }}
+        >
+          <Download size={12} /> Export
+        </button>
       </div>
       <div className="orbit-card" style={{ padding: 0 }}>
         <div style={{ display: "grid", gridTemplateColumns: "140px 1fr 100px 80px", gap: 12, padding: "10px 16px", borderBottom: "1px solid var(--border-subtle)", fontSize: "0.72rem", color: "var(--text-muted)", fontWeight: 600, textTransform: "uppercase" as const, letterSpacing: "0.04em" }}>

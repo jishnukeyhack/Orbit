@@ -14,7 +14,12 @@ const MARKETPLACE_AGENTS = [
   { id: "mp-8", name: "InfraWatch", publisher: "CloudOps", verified: true, description: "Real-time infrastructure monitoring and anomaly detection", rating: 4.7, reviews: 780, installs: 19000, pricing: "$15/mo", category: "DevOps", featured: false },
 ];
 
+import { useState } from "react";
+
 export default function MarketplacePage() {
+  const [installing, setInstalling] = useState(false);
+  const [installed, setInstalled] = useState(false);
+
   return (
     <div style={{ maxWidth: 1400, margin: "0 auto" }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 24 }}>
@@ -56,8 +61,19 @@ export default function MarketplacePage() {
             <span>48,000 installs</span>
             <span style={{ color: "var(--status-success)", fontWeight: 600 }}>Free</span>
           </div>
-          <button className="btn-primary" style={{ padding: "8px 20px" }}>
-            <Download size={14} /> Install
+          <button 
+            className="btn-primary" 
+            style={{ padding: "8px 20px" }}
+            onClick={() => {
+              if (installed) return;
+              setInstalling(true);
+              setTimeout(() => {
+                setInstalling(false);
+                setInstalled(true);
+              }, 1500);
+            }}
+          >
+            {installing ? "Installing..." : installed ? "✓ Installed" : <><Download size={14} /> Install</>}
           </button>
         </div>
       </div>

@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 import { Plug, Search } from "lucide-react";
 
 const INTEGRATION_CATEGORIES = [
@@ -185,6 +186,8 @@ function getBrandLogo(name: string, connected: boolean) {
 }
 
 export default function IntegrationsPage() {
+  const [connectModalService, setConnectModalService] = useState<string | null>(null);
+
   return (
     <div style={{ maxWidth: 1400, margin: "0 auto" }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 24 }}>
@@ -224,11 +227,11 @@ export default function IntegrationsPage() {
                 <div style={{ display: "flex", gap: 6 }}>
                   {int.connected ? (
                     <>
-                      <button style={{ flex: 1, padding: "5px 0", borderRadius: 6, background: "rgba(79,140,255,0.08)", border: "1px solid rgba(79,140,255,0.15)", color: "var(--accent-blue)", fontSize: "0.72rem", fontWeight: 500, cursor: "pointer" }}>Configure</button>
-                      <button style={{ flex: 1, padding: "5px 0", borderRadius: 6, background: "transparent", border: "1px solid var(--border-subtle)", color: "var(--text-muted)", fontSize: "0.72rem", cursor: "pointer" }}>Disconnect</button>
+                      <button onClick={() => console.log('Configure', int.name)} style={{ flex: 1, padding: "5px 0", borderRadius: 6, background: "rgba(79,140,255,0.08)", border: "1px solid rgba(79,140,255,0.15)", color: "var(--accent-blue)", fontSize: "0.72rem", fontWeight: 500, cursor: "pointer" }}>Configure</button>
+                      <button onClick={() => console.log('Disconnect', int.name)} style={{ flex: 1, padding: "5px 0", borderRadius: 6, background: "transparent", border: "1px solid var(--border-subtle)", color: "var(--text-muted)", fontSize: "0.72rem", cursor: "pointer" }}>Disconnect</button>
                     </>
                   ) : (
-                    <button className="btn-primary" style={{ flex: 1, padding: "5px 0", fontSize: "0.72rem", justifyContent: "center" }}>Connect</button>
+                    <button className="btn-primary" onClick={() => setConnectModalService(int.name)} style={{ flex: 1, padding: "5px 0", fontSize: "0.72rem", justifyContent: "center" }}>Connect</button>
                   )}
                 </div>
               </div>
@@ -236,6 +239,22 @@ export default function IntegrationsPage() {
           </div>
         </div>
       ))}
+
+      {/* Connect Modal */}
+      {connectModalService && (
+        <div style={{ position: "fixed", inset: 0, zIndex: 100, display: "flex", alignItems: "center", justifyContent: "center", padding: 24, backgroundColor: "rgba(0,0,0,0.6)", backdropFilter: "blur(4px)" }}>
+          <div className="orbit-card" style={{ width: "100%", maxWidth: 400, padding: "24px" }}>
+            <h3 style={{ fontSize: "1.125rem", fontWeight: 600, marginTop: 0, marginBottom: "12px" }}>Connect {connectModalService}</h3>
+            <p style={{ fontSize: "0.875rem", color: "var(--text-secondary)", marginBottom: "24px" }}>
+              Connect {connectModalService}? This will redirect you to authorize access.
+            </p>
+            <div style={{ display: "flex", gap: "12px", justifyContent: "flex-end" }}>
+              <button className="btn-ghost" onClick={() => setConnectModalService(null)}>Cancel</button>
+              <button className="btn-primary" onClick={() => { console.log('Connecting', connectModalService); setConnectModalService(null); }}>Confirm</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

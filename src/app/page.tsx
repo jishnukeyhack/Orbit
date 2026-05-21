@@ -90,15 +90,13 @@ export default function LandingPage() {
           <OrbitLogo variant="full" size={26} />
         </Link>
         <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-          {["Docs", "Pricing", "Marketplace", "Blog"].map((l) => (
-            <a key={l} href="#" style={{ padding: "6px 14px", borderRadius: 8, color: "var(--text-secondary)", fontSize: "0.875rem", fontWeight: 500, textDecoration: "none", transition: "color 0.18s, background 0.18s" }}
-              onMouseEnter={(e) => { e.currentTarget.style.color = "var(--text-primary)"; e.currentTarget.style.background = "rgba(255,255,255,0.06)"; }}
-              onMouseLeave={(e) => { e.currentTarget.style.color = "var(--text-secondary)"; e.currentTarget.style.background = "transparent"; }}
-            >{l}</a>
-          ))}
+          <a href="https://github.com/jishnukeyhack/Orbit#readme" target="_blank" rel="noreferrer" style={{ padding: "6px 14px", borderRadius: 8, color: "var(--text-secondary)", fontSize: "0.875rem", fontWeight: 500, textDecoration: "none", transition: "color 0.18s, background 0.18s" }} onMouseEnter={(e) => { e.currentTarget.style.color = "var(--text-primary)"; e.currentTarget.style.background = "rgba(255,255,255,0.06)"; }} onMouseLeave={(e) => { e.currentTarget.style.color = "var(--text-secondary)"; e.currentTarget.style.background = "transparent"; }}>Docs</a>
+          <Link href="/billing" style={{ padding: "6px 14px", borderRadius: 8, color: "var(--text-secondary)", fontSize: "0.875rem", fontWeight: 500, textDecoration: "none", transition: "color 0.18s, background 0.18s" }} onMouseEnter={(e) => { e.currentTarget.style.color = "var(--text-primary)"; e.currentTarget.style.background = "rgba(255,255,255,0.06)"; }} onMouseLeave={(e) => { e.currentTarget.style.color = "var(--text-secondary)"; e.currentTarget.style.background = "transparent"; }}>Pricing</Link>
+          <Link href="/marketplace" style={{ padding: "6px 14px", borderRadius: 8, color: "var(--text-secondary)", fontSize: "0.875rem", fontWeight: 500, textDecoration: "none", transition: "color 0.18s, background 0.18s" }} onMouseEnter={(e) => { e.currentTarget.style.color = "var(--text-primary)"; e.currentTarget.style.background = "rgba(255,255,255,0.06)"; }} onMouseLeave={(e) => { e.currentTarget.style.color = "var(--text-secondary)"; e.currentTarget.style.background = "transparent"; }}>Marketplace</Link>
+          <a href="#" style={{ padding: "6px 14px", borderRadius: 8, color: "var(--text-secondary)", fontSize: "0.875rem", fontWeight: 500, textDecoration: "none", transition: "color 0.18s, background 0.18s" }} onMouseEnter={(e) => { e.currentTarget.style.color = "var(--text-primary)"; e.currentTarget.style.background = "rgba(255,255,255,0.06)"; }} onMouseLeave={(e) => { e.currentTarget.style.color = "var(--text-secondary)"; e.currentTarget.style.background = "transparent"; }}>Blog</a>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <a href="#" className="btn-ghost">Sign in</a>
+          <Link href="/login" className="btn-ghost" style={{ textDecoration: 'none' }}>Sign in</Link>
           <Link href="/dashboard" className="btn-primary">Get started free</Link>
         </div>
       </nav>
@@ -135,7 +133,13 @@ export default function LandingPage() {
           />
           <div style={{ display: "flex", gap: 6, flexShrink: 0 }}>
             {["Agent", "Swarm", "Workflow"].map((c) => (
-              <button key={c} style={{ padding: "6px 12px", borderRadius: 8, fontSize: "0.78rem", fontWeight: 500, background: "rgba(79,140,255,0.12)", color: "var(--accent-blue)", border: "1px solid rgba(79,140,255,0.22)", cursor: "pointer", transition: "background 0.16s" }}
+              <button key={c} 
+                onClick={() => {
+                  if (c === "Agent") setPlaceholderIdx(0);
+                  if (c === "Swarm") setPlaceholderIdx(1);
+                  if (c === "Workflow") setPlaceholderIdx(2);
+                }}
+                style={{ padding: "6px 12px", borderRadius: 8, fontSize: "0.78rem", fontWeight: 500, background: "rgba(79,140,255,0.12)", color: "var(--accent-blue)", border: "1px solid rgba(79,140,255,0.22)", cursor: "pointer", transition: "background 0.16s" }}
                 onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(79,140,255,0.22)")}
                 onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(79,140,255,0.12)")}
               >{c}</button>

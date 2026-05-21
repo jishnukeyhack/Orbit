@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { Search, Sparkles, Bell, ChevronDown, User } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
 
 const TYPING_PLACEHOLDERS = [
   "Run SEO Specialist on my website...",
@@ -32,6 +33,8 @@ export default function TopNavbar() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [statusData, setStatusData] = useState<StatusData | null>(null);
   const [notifOpen, setNotifOpen] = useState(false);
+  const [workspaceOpen, setWorkspaceOpen] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
   const router = useRouter();
   const searchRef = useRef<HTMLDivElement>(null);
 
@@ -56,6 +59,10 @@ export default function TopNavbar() {
     const handler = (e: MouseEvent) => {
       if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
         setSearchOpen(false);
+      }
+      // @ts-ignore - custom workspace dropdown closing
+      if (e.target && !(e.target as Element).closest('#workspace-btn') && !(e.target as Element).closest('#workspace-dropdown')) {
+        setWorkspaceOpen(false);
       }
     };
     document.addEventListener("mousedown", handler);
@@ -97,7 +104,20 @@ export default function TopNavbar() {
           <input
             type="text"
             placeholder="Quick search or ⌘K..."
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
             onFocus={() => setSearchOpen(true)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && searchValue.trim()) {
+                const match = QUICK_COMMANDS.find(cmd => cmd.label.toLowerCase() === searchValue.trim().toLowerCase());
+                if (match) {
+                  router.push(match.href);
+                } else {
+                  router.push(`/agents?search=${encodeURIComponent(searchValue.trim())}`);
+                }
+                setSearchOpen(false);
+              }
+            }}
             style={{ flex: 1, background: "transparent", border: "none", outline: "none", fontSize: "0.8125rem", color: "var(--text-primary)", fontFamily: "inherit" }}
           />
           <kbd style={{ fontSize: "0.65rem", padding: "2px 6px", borderRadius: 4, background: "rgba(255,255,255,0.06)", color: "var(--text-muted)", border: "1px solid var(--border-subtle)" }}>
@@ -214,24 +234,58 @@ export default function TopNavbar() {
         </div>
 
         {/* Workspace */}
-        <button style={{
-          display: "flex", alignItems: "center", gap: 6, padding: "6px 10px",
-          borderRadius: 8, background: "transparent", border: "1px solid var(--border-subtle)",
-          color: "var(--text-secondary)", fontSize: "0.78rem", fontWeight: 500, cursor: "pointer",
-        }}>
-          Orbit HQ <ChevronDown size={12} />
-        </button>
-
-        {/* Avatar */}
-        <Link href="/settings">
-          <div style={{
-            width: 32, height: 32, borderRadius: "50%",
-            background: "linear-gradient(135deg, var(--accent-blue), var(--accent-purple))",
-            display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer",
+        <div style={{ position: "relative" }}>
+          <button id="workspace-btn" onClick={() => setWorkspaceOpen(!workspaceOpen)} style={{
+            display: "flex", alignItems: "center", gap: 6, padding: "6px 10px",
+            borderRadius: 8, background: "transparent", border: "1px solid var(--border-subtle)",
+            color: "var(--text-secondary)", fontSize: "0.78rem", fontWeight: 500, cursor: "pointer",
           }}>
-            <User size={16} color="#fff" />
-          </div>
-        </Link>
+            Orbit HQ <ChevronDown size={12} />
+          </button>
+          {workspaceOpen && (
+            <div id="workspace-dropdown" style={{
+              position: "absolute", top: "calc(100% + 8px)", right: 0, width: 220,
+              background: "#0f1629", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 12,
+              padding: 8, boxShadow: "0 16px 48px rgba(0,0,0,0.5)", zIndex: 100,
+            }}>
+              <div style={{ padding: "8px 10px", fontSize: "0.8rem", color: "#e2e8f0", background: "rgba(255,255,255,0.05)", borderRadius: 6, marginBottom: 4 }}>
+                Orbit HQ (current)
+              </div>
+              <div style={{ padding: "8px 10px", fontSize: "0.8rem", color: "#64748b", cursor: "not-allowed", display: "flex", alignItems: "center", gap: 8 }}>
+                <span style={{ fontSize: "1rem" }}>+</span> Add workspace
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Avatar & Sign Out */}
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <Link href="/settings">
+            <div style={{
+              width: 32, height: 32, borderRadius: "50%",
+              background: "linear-gradient(135deg, var(--accent-blue), var(--accent-purple))",
+              display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer",
+            }}>
+              <User size={16} color="#fff" />
+            </div>
+          </Link>
+          <button 
+            onClick={async () => {
+              const supabase = createClient();
+              await supabase.auth.signOut();
+              router.push('/');
+            }}
+            style={{
+              padding: "6px 10px", borderRadius: 8, background: "transparent",
+              border: "1px solid var(--border-subtle)", color: "var(--text-secondary)",
+              fontSize: "0.78rem", fontWeight: 500, cursor: "pointer", transition: "all 0.2s"
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.color = "#ef4444"; e.currentTarget.style.borderColor = "rgba(239,68,68,0.3)"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.color = "var(--text-secondary)"; e.currentTarget.style.borderColor = "var(--border-subtle)"; }}
+          >
+            Sign out
+          </button>
+        </div>
       </div>
     </header>
   );

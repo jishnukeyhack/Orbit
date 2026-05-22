@@ -391,7 +391,7 @@ Orbit/
 │                                                                          │
 │  Adapters:  gemini | openai-gpt | codex | local (Ollama/LMStudio)      │
 │                                                                          │
-│  Memory:    LanceDB (vector) + SQLite (task state + issues)             │
+│  Memory:      SQLiteDB (task state + issues)             │
 │  Knowledge: Code graph scanner + repository analyzer                    │
 │                                                                          │
 │  Guards:    qualityGate | fakeDataGuard | conventionalCommits           │
@@ -519,7 +519,6 @@ You are an expert AI/ML engineer...
 | Runtime | Node.js 22 + TypeScript (ESM) |
 | CLI | Commander.js |
 | Discord | discord.js |
-| Linear | @linear/sdk |
 | Vector Memory | LanceDB + @xenova/transformers |
 | Relational | better-sqlite3 |
 | GraphQL | graphql-yoga |
@@ -541,8 +540,6 @@ git --version    # Need: 2.x+
 You will also need:
 - **Gemini API key** — for agent execution ([get one here](https://ai.google.dev))
 - **OpenAI API key** — for agent execution ([get one here](https://platform.openai.com/api-keys))
-- **Linear API key** — for issue-based task triggering (optional)
-- **Discord Bot Token** — for Discord-based triggering (optional)
 
 ---
 
@@ -607,14 +604,11 @@ Edit `.env` with your real values:
 GEMINI_API_KEY=your_gemini_api_key_here
 OPENAI_API_KEY=your_openai_api_key_here
 
-# Required for Discord triggering
+# Required for Discord triggering ( Future Purpose )
 DISCORD_TOKEN=your_discord_bot_token
 DISCORD_CHANNEL_ID=your_channel_id
 DISCORD_ALLOWED_USERS=your_discord_user_id
 
-# Required for Linear triggering
-LINEAR_API_KEY=lin_api_xxxxxxxxxxxxxxxxxxxxxxxx
-LINEAR_TEAM_ID=00000000-0000-0000-0000-000000000000
 ```
 
 Copy and configure `config.yaml`:

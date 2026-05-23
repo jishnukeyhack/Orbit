@@ -47,7 +47,7 @@ Think of it as your mission control for AI — where every agent, swarm, workflo
 
 ## 🚀 Deployed Link
 
-> **🔗 Coming Soon**  
+> [**🔗It's Live**](https://orbit-166816904008.us-central1.run.app) 
 > Authentication is planned for a future release. The deployment link will be updated here once live.
 
 ```
@@ -922,11 +922,11 @@ docker run -d \
 - [x] Streaming agent execution
 - [x] SQLite memory engine
 - [x] LanceDB vector memory
-- [ ] **Authentication** (NextAuth.js / Clerk — planned)
-- [ ] Deployed production link
+- [x] Authentication (Supabase Auth)
+- [x] Deployed production link
+- [x] Real-time WebSocket dashboard updates
 - [ ] Hermes-Agent integration (NousResearch/hermes-agent)
 - [ ] OpenClaw skill integration (openclaw/clawhub)
-- [ ] Real-time WebSocket dashboard updates
 - [ ] Agent marketplace with ratings and installs
 - [ ] Team collaboration features
 - [ ] Usage-based billing integration

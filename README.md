@@ -27,7 +27,7 @@
 
 <br/>
 
-[**Live Demo**](https://orbit-166816904008.us-central1.run.app) · [**Quick Start**](#-quick-start) · [**Architecture**](#-architecture) · [**Agent Registry**](#-agent-registry) · [**Contributing**](#-contributing)
+[**Live Demo**](https://orbit-17213312896.us-central1.run.app) · [**Quick Start**](#-quick-start) · [**Architecture**](#-architecture) · [**Agent Registry**](#-agent-registry) · [**Contributing**](#-contributing)
 
 <br/>
 
@@ -47,7 +47,7 @@ Think of it as your mission control for AI — where every agent, swarm, workflo
 
 ## 🚀 Deployed Link
 
-> [**🔗It's Live**](https://orbit-166816904008.us-central1.run.app) 
+> [**🔗It's Live**](https://orbit-17213312896.us-central1.run.app) 
 > Authentication is planned for a future release. The deployment link will be updated here once live.
 
 ```

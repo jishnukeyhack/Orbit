@@ -1,0 +1,3 @@
+# Build full-text search with ranking algorithm
+
+Implementation details...

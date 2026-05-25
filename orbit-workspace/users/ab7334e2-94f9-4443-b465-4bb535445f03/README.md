@@ -1,0 +1,3 @@
+# Build a complete CRUD REST API for a products resource
+
+Implementation details...

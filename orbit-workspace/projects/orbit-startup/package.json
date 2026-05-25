@@ -1,0 +1,13 @@
+{
+  "name": "orbit-startup",
+  "version": "1.0.0",
+  "description": "YC-grade startup codebase for orbit-startup",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "jest"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

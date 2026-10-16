@@ -8,6 +8,7 @@ import { existsSync, mkdirSync } from 'fs';
 import path from 'path';
 import { exec } from 'child_process';
 import { promisify } from 'util';
+import { scrubbedEnv } from '../action/policy';
 
 const execAsync = promisify(exec);
 
@@ -129,7 +130,7 @@ export async function executeTool(call: ToolCall, cwd: string): Promise<ToolResu
           cwd,
           timeout: 30000,
           maxBuffer: 1024 * 512,
-          env: { ...process.env, NODE_ENV: 'development' },
+          env: { ...scrubbedEnv(), NODE_ENV: 'development' },
           windowsHide: true,
         });
         const output = stdout + (stderr ? `\n[stderr] ${stderr}` : '');

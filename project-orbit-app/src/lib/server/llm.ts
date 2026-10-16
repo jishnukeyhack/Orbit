@@ -323,6 +323,9 @@ export interface AgentCallOptions {
   tools?: unknown[];
   model?: string;
   onLog?: (line: string) => void;
+  /** Action layer: full conversation history for multi-turn tool calling.
+   *  When omitted, a single system+user exchange is used (legacy behaviour). */
+  messages?: LLMMessage[];
 }
 
 export interface AgentCallResult {
@@ -332,17 +335,19 @@ export interface AgentCallResult {
   model: string;
   durationMs: number;
   isSimulated: boolean;
+  /** Action layer: tool calls returned by the model, if any. */
+  tool_calls?: Array<{ id: string; function: { name: string; arguments: string } }>;
 }
 
 export async function callAgent(options: AgentCallOptions): Promise<AgentCallResult> {
   const startTime = Date.now();
-  const { systemPrompt, userPrompt, stage, taskTitle, tools = [], model, onLog } = options;
+  const { systemPrompt, userPrompt, stage, taskTitle, tools = [], model, onLog, messages: historyMessages } = options;
 
   // Real LLM path
   if (OPENAI_API_KEY) {
     onLog?.(`  🌐 Calling OpenAI ${model ?? 'gpt-4o'}...`);
     try {
-      const messages: LLMMessage[] = [
+      const messages: LLMMessage[] = historyMessages ?? [
         { role: 'system', content: systemPrompt },
         { role: 'user', content: userPrompt },
       ];
@@ -354,6 +359,7 @@ export async function callAgent(options: AgentCallOptions): Promise<AgentCallRes
         model: res.model,
         durationMs: Date.now() - startTime,
         isSimulated: false,
+        tool_calls: res.tool_calls,
       };
     } catch (err) {
       onLog?.(`  ⚠️ OpenAI error: ${err instanceof Error ? err.message : String(err)}, falling back to simulation`);
